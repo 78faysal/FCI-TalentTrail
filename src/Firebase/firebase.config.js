@@ -5,13 +5,13 @@ import { getAnalytics } from "firebase/analytics";
 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAbYcXV2MQaMYZCaWmgKjyg689wmChfI14",
-  authDomain: "fci-talenttrail.firebaseapp.com",
-  projectId: "fci-talenttrail",
-  storageBucket: "fci-talenttrail.appspot.com",
-  messagingSenderId: "537753234922",
-  appId: "1:537753234922:web:8a3b2cf9142378a120d693",
-  measurementId: "G-PPHQL159Z1"
+  apiKey: import.meta.env.VITE_apiKey,
+  authDomain: import.meta.env.VITE_authDomain,
+  projectId: import.meta.env.VITE_projectId,
+  storageBucket: import.meta.env.VITE_storageBucket,
+  messagingSenderId: import.meta.env.VITE_messagingSenderId,
+  appId: import.meta.env.VITE_appId,
+  measurementId: import.meta.env.VITE_measurementId,
 };
 
 // Initialize Firebase

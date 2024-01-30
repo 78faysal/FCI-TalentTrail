@@ -62,7 +62,7 @@ const Login = () => {
                 >
                   Sign in
                 </button>
-                <p className="text-sm font-light text-center text-gray-500 dark:text-gray-400">
+                <p className="font-semibold font-light text-center text-gray-500 dark:text-gray-400">
                   Don’t have an account yet?{" "}
                   <Link className="text-primary" to={"/register"}>
                     Sign Up
