@@ -1,6 +1,36 @@
 import { Link } from "react-router-dom";
+import useAuth from "../../../Hooks/useAuth";
+import toast from "react-hot-toast";
+import { useState } from "react";
 
 const Login = () => {
+  const {logIn} = useAuth();
+  const [userLoading, setUserLoading] = useState(false);
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    setUserLoading(true)
+
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+
+    logIn(email, password)
+    .then(res => {
+      if(res.user){
+        setUserLoading(false)
+        toast.success('Successfully Logged in')
+      }
+    })
+    .catch(error => {
+      if(error.message === 'Firebase: Error (auth/invalid-credential).'){
+        setUserLoading(false)
+        toast.error('Invalid Email or Password')
+      }
+      setUserLoading(false);
+      toast.error("Something went wrong")
+    })
+
+  }
   return (
     <div>
       <section className="bg-gray-50 dark:bg-gray-900">
@@ -10,7 +40,7 @@ const Login = () => {
               <h1 className="text-xl font-bold leading-tight tracking-tight text-center text-gray-900 md:text-2xl dark:text-white">
                 Sign in to Talent Trail!
               </h1>
-              <form className="space-y-4 md:space-y-6">
+              <form className="space-y-4 md:space-y-6" onSubmit={handleFormSubmit}>
                 <div>
                   <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Email
@@ -36,11 +66,11 @@ const Login = () => {
                   />
                 </div>
                 <div className="flex items-center justify-between">
-                  <div className="flex items-start">
+                  {/* <div className="flex items-start">
                     <div className="flex items-center h-5">
                       <input
                         type="checkbox"
-                        className="checkbox checkbox-info checkbox-xs"
+                        className="checkbox checkbox-primary checkbox-xs"
                       />
                     </div>
                     <div className="ml-3 text-sm">
@@ -48,18 +78,19 @@ const Login = () => {
                         Remember me
                       </label>
                     </div>
-                  </div>
+                  </div> */}
                   <Link
                     href=""
-                    className="text-sm text-primary hover:underline dark:text-primary"
+                    className="text-sm text-primary justify-end hover:underline dark:text-primary"
                   >
                     Forgot password?
                   </Link>
                 </div>
                 <button
                   type="submit"
-                  className="w-full text-white border bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                  className="w-full flex items-center justify-center gap-2 text-white border btn btn-outline"
                 >
+                  {userLoading && <span className="loading loading-dots loading-md"></span>}
                   Sign in
                 </button>
                 <p className="font-semibold font-light text-center text-gray-500 dark:text-gray-400">

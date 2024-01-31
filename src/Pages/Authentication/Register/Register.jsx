@@ -182,7 +182,7 @@ const Register = () => {
                   <input
                     type="file"
                     name="image"
-                    className="file-input file-input-bordered bg-gray-500 w-full"
+                    className="file-input file-input-bordered dark:bg-gray-500 w-full"
                     required
                   />
                 </div>
@@ -200,10 +200,10 @@ const Register = () => {
                 </div>
                 <button
                   type="submit"
-                  className="w-full text-white btn btn-outline"
+                  className="w-full  flex items-center justify-center gap-2 text-white btn btn-outline"
                 >
                     {userLoading && <span className="loading loading-dots loading-md"></span>}
-                  Sign in
+                  Sign Up
                 </button>
                 <p className="font-light text-center font-semibold text-gray-500 dark:text-gray-400">
                   Have an account?{" "}
