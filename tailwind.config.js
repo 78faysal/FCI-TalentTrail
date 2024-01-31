@@ -8,5 +8,20 @@ export default {
     extend: {},
   },
   plugins: [require("daisyui")],
+
+  daisyui: {
+    themes: [
+      {
+        mytheme: {
+          "primary": "#1967d2",
+          "secondary": "#5c9df7",
+          "accent": "#37cdbe",
+          "neutral": "#3d4451",
+          "base-100": "#ffffff",
+        },
+      },
+    ],
+  },
+  
 }
 
