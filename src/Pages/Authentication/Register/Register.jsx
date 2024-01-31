@@ -4,9 +4,10 @@ import toast from "react-hot-toast";
 import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 import { ImageUpload } from "../../../Utils/ImageUpload";
 import { useState } from "react";
+import GoogleSignIn from "../GoogleSignIn/GoogleSignIn";
 
 const Register = () => {
-  const { createUser } = useAuth();
+  const { createUser, updateUser } = useAuth();
   const axiosPublic = useAxiosPublic();
   const [userLoading, setUserLoading] = useState(false);
 
@@ -36,19 +37,27 @@ const Register = () => {
       roll,
       number,
       password,
-      depertment
+      depertment,
     };
 
     createUser(email, password)
       .then((res) => {
         if (res.user) {
-          axiosPublic.post("/users", userInfo).then((res) => {
-            console.log(res.data);
-            if (res.data.insertedId) {
-              setUserLoading(false);
-              toast.success("Account Created 👏");
-            }
-          });
+          updateUser(name, image)
+          .then(() => {
+            axiosPublic.post("/users", userInfo).then((res) => {
+              console.log(res.data);
+              if (res.data.insertedId) {
+                setUserLoading(false);
+                toast.success("Account Created 👏");
+              }
+            });
+          })
+          .catch(error => {
+            console.log(error);
+            setUserLoading(false)
+            toast.error("Something went wrong")
+          })
         }
       })
       .catch((error) => {
@@ -117,7 +126,7 @@ const Register = () => {
                     <input
                       type="number"
                       name="batch"
-                      min='0'
+                      min="0"
                       className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       placeholder="Your batch"
                       required
@@ -202,7 +211,9 @@ const Register = () => {
                   type="submit"
                   className="w-full  flex items-center justify-center gap-2 text-white btn btn-outline"
                 >
-                    {userLoading && <span className="loading loading-dots loading-md"></span>}
+                  {userLoading && (
+                    <span className="loading loading-dots loading-md"></span>
+                  )}
                   Sign Up
                 </button>
                 <p className="font-light text-center font-semibold text-gray-500 dark:text-gray-400">
@@ -212,6 +223,9 @@ const Register = () => {
                   </Link>
                 </p>
               </form>
+              <div>
+                <GoogleSignIn />
+              </div>
             </div>
           </div>
         </div>

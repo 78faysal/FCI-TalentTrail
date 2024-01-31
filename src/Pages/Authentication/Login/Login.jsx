@@ -2,35 +2,40 @@ import { Link } from "react-router-dom";
 import useAuth from "../../../Hooks/useAuth";
 import toast from "react-hot-toast";
 import { useState } from "react";
+import GoogleSignIn from "../GoogleSignIn/GoogleSignIn";
 
 const Login = () => {
-  const {logIn} = useAuth();
+  const { logIn } = useAuth();
   const [userLoading, setUserLoading] = useState(false);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    setUserLoading(true)
+    setUserLoading(true);
 
     const email = e.target.email.value;
     const password = e.target.password.value;
 
     logIn(email, password)
-    .then(res => {
-      if(res.user){
-        setUserLoading(false)
-        toast.success('Successfully Logged in')
-      }
-    })
-    .catch(error => {
-      if(error.message === 'Firebase: Error (auth/invalid-credential).'){
-        setUserLoading(false)
-        toast.error('Invalid Email or Password')
-      }
-      setUserLoading(false);
-      toast.error("Something went wrong")
-    })
+      .then((res) => {
+        if (res.user) {
+          setUserLoading(false);
+          toast.success("Successfully Logged in");
+        }
+      })
+      .catch((error) => {
+        if (error.message === "Firebase: Error (auth/invalid-credential).") {
+          setUserLoading(false);
+          toast.error("Invalid Email or Password");
+        }
+        setUserLoading(false);
+        toast.error("Something went wrong");
+      });
+  };
 
-  }
+  // const handleResetPassword = () => {
+  //   passwordReset(email)
+  // }
+
   return (
     <div>
       <section className="bg-gray-50 dark:bg-gray-900">
@@ -40,7 +45,10 @@ const Login = () => {
               <h1 className="text-xl font-bold leading-tight tracking-tight text-center text-gray-900 md:text-2xl dark:text-white">
                 Sign in to Talent Trail!
               </h1>
-              <form className="space-y-4 md:space-y-6" onSubmit={handleFormSubmit}>
+              <form
+                className="space-y-4 md:space-y-6"
+                onSubmit={handleFormSubmit}
+              >
                 <div>
                   <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Email
@@ -65,8 +73,8 @@ const Login = () => {
                     required
                   />
                 </div>
-                <div className="flex items-center justify-between">
-                  {/* <div className="flex items-start">
+                {/* <div className="flex items-center justify-between">
+                  <div className="flex items-start">
                     <div className="flex items-center h-5">
                       <input
                         type="checkbox"
@@ -78,19 +86,21 @@ const Login = () => {
                         Remember me
                       </label>
                     </div>
-                  </div> */}
-                  <Link
-                    href=""
+                  </div>
+                  <p
+                    onClick={handleResetPassword}
                     className="text-sm text-primary justify-end hover:underline dark:text-primary"
                   >
                     Forgot password?
-                  </Link>
-                </div>
+                  </p>
+                </div> */}
                 <button
                   type="submit"
                   className="w-full flex items-center justify-center gap-2 text-white border btn btn-outline"
                 >
-                  {userLoading && <span className="loading loading-dots loading-md"></span>}
+                  {userLoading && (
+                    <span className="loading loading-dots loading-md"></span>
+                  )}
                   Sign in
                 </button>
                 <p className="font-semibold font-light text-center text-gray-500 dark:text-gray-400">
@@ -100,6 +110,9 @@ const Login = () => {
                   </Link>
                 </p>
               </form>
+              <div>
+                <GoogleSignIn />
+              </div>
             </div>
           </div>
         </div>
